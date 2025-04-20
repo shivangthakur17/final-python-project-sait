@@ -1,17 +1,17 @@
 class Patient:
-    def init(self, pid="", name="", disease="", gender="", age=""):
+    def __init__(self, pid="", name="", disease="", gender="", age=""):
         self.id = pid
         self.name = name
         self.disease = disease
         self.gender = gender
         self.age = age
 
-    def str(self):
+    def __str__(self):
         return f"{self.id}_{self.name}_{self.disease}_{self.gender}_{self.age}"
 
 
 class PatientManager:
-    def init(self):
+    def __init__(self):
         self.patients = []
         self.read_file()
 
@@ -22,7 +22,7 @@ class PatientManager:
                 for line in f:
                     parts = line.strip().split("_")
                     if len(parts) == 5:
-                        self.patients.append(Patient(*parts))
+                        self.patients.append(Patient(parts[0], parts[1], parts[2], parts[3], parts[4]))
         except:
             pass
 
@@ -74,3 +74,37 @@ class PatientManager:
                 print(f"\nPatient whose ID is {id} has been edited.\n")
                 return
         print("Cannot find the patient .....\n")
+
+
+class Management:
+    def display_menu(self):
+        p = PatientManager()
+        while True:
+            print("Welcome to Alberta Hospital (AH) Managment system ")
+            print("Select from the following options, or select 3 to stop: ")
+            print("1 - \tDoctors")
+            print("2 - \tPatients")
+            print("3 -\tExit Program ")
+            choice = input(">>> ")
+            if choice == "2":
+                while True:
+                    print("\nPatients Menu:")
+                    print("1 - Display patients list")
+                    print("2 - Search for patient by ID")
+                    print("3 - Add patient")
+                    print("4 - Edit patient info")
+                    print("5 - Back to the Main Menu")
+                    sub = input(">>> ")
+                    if sub == "1": p.display_list()
+                    elif sub == "2": p.display_by_id()
+                    elif sub == "3": p.add()
+                    elif sub == "4": p.edit()
+                    elif sub == "5": break
+            elif choice == "3":
+                print("Thanks for using the program. Bye!")
+                break
+
+
+# Run the program
+if __name__ == "__main__":
+    Management().display_menu()
